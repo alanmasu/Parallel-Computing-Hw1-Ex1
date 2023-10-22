@@ -24,28 +24,64 @@
 #include <time.h>
 #include <sys/time.h>
 
+// Random float generator
+float randomF(int min, int max, int prec){ 
+  prec = 10 * prec; 
+  return (rand() % (max * prec - min * prec + 1) + min * prec) / (float)prec; 
+}
+
 // Routine 1
-void routine1(float *A, float *B, float *C, int n, clock_t *t_loop){
+clock_t routine1(float *A, float *B, float *C, int n){
     clock_t t_start, t_stop;
+    int i;
     t_start = clock();
-    for (int i = 0; i < n; i++){
+    for (i = 0; i < n; i++){
         C[i] = A[i] + B[i];
     }
     t_stop = clock();
-    *t_loop = t_stop - t_start;
+    return t_stop - t_start;
 }
 
 int main(int argc, char const *argv[]){
     int n;
-    printf("Routine 1\n\n Input size n:\n");
+    int i;
+    printf("Routine 1\n");
+#ifndef N
+    printf("\n Input size n:\n");
     do{
         scanf("%d", &n);
         if (n < 0){
             printf("Invalid input, please insert a positive integer!\n");
         }
     } while (n < 0);
-    
-    
+#else
+    n = N;
+#endif
+
+    // Allocate arrays
+    float a[n], b[n], c[n];
+
+    // Initialize arrays with random values
+    srand(time(NULL));
+    for (i = 0; i < n; i++){
+        a[i] = randomF(0, 100, 3);
+        b[i] = randomF(0, 100, 3);
+    }
+
+    // Print some values
+    printf("Printing some values of the arrays:\n");
+    for (i = 0; i < 10; i++){
+        int j = rand() % n;
+        printf("a[%d] = %f\tb[%d] = %f\n", j, a[j], j, b[j]);
+    }
+    printf("call routine1\n");
+    // Call routine 1
+    clock_t wall_time;
+    wall_time = routine1(a, b, c, n);
+
+    // Print results
+    double time = (double)wall_time/((double)CLOCKS_PER_SEC);
+    printf("\n\nLoop time: %.6f ms\n", time);
 
     return 0;
 }
