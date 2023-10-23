@@ -23,34 +23,43 @@
 #include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
-#include <limits.h>
 
 // Random float generator
 float randomF(int min, int max, int prec){ 
   prec = 10 * prec; 
-  return (rand()%(max * prec - min * prec + 1) + min * prec) / (float)prec; 
-} 
+  return (rand() % (max * prec - min * prec + 1) + min * prec) / (float)prec; 
+}
 
 // Routine 1
 clock_t routine1(float *A, float *B, float *C, int n){
     clock_t t_start, t_stop;
-    unsigned long long int i;
-
+    int i;
     t_start = clock();
-
     for (i = 0; i < n; i++){
         C[i] = A[i] + B[i];
     }
     t_stop = clock();
-    
+    return t_stop - t_start;
+}
+
+//Routine 2
+clock_t routine2(float *A, float *B, float * __restrict C, int n){
+    clock_t t_start, t_stop;
+    int i;
+    t_start = clock();
+    for (i = 0; i < n; i++){
+        C[i] = A[i] + B[i];
+    }
+    t_stop = clock();
     return t_stop - t_start;
 }
 
 int main(int argc, char const *argv[]){
     int n;
     int i;
+    
 #ifndef N
-    printf("Routine 1\n\nInput size n:\n");
+    printf("\n Input size n:\n");
     do{
         scanf("%d", &n);
         if (n < 0){
