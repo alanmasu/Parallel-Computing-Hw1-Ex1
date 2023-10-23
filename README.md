@@ -12,7 +12,7 @@ module load gcc91
 
 Then, we can compile the code with the following command:
 ```bash
-gcc [-DN=<Arrays_dimension>] main.c -O0
+gcc [-DN=<Arrays_dimension>] main.c -O0 -ftree-vectorize
 
 ```
 where N is the dimension of the arrays. If N is not specified, the program will ask it later.

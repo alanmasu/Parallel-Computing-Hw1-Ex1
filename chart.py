@@ -3,12 +3,14 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+filename = 'T3-resoults'
+
 # Set the style
 sns.set_style("whitegrid")
 sns.set_context("paper", font_scale=1.5, rc={"lines.linewidth": 2.5})
 
 # Read the data
-df = pd.read_csv('T2-resoults.csv')
+df = pd.read_csv(filename + '.csv')
 
 print(df)
 
@@ -21,5 +23,5 @@ plt.title('Wall time')
 plt.xlabel('Job')
 plt.ylabel('Time (s)')
 plt.legend()
-plt.savefig('T2-Resoults.png')
+plt.savefig(filename + '.png')
 plt.show()

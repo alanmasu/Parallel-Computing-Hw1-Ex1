@@ -72,7 +72,7 @@ int main(int argc, char const *argv[]){
     // Allocate memory for arrays
     float a[n], b[n], c[n];
     FILE *fp;
-    fp = fopen("T2-resoults.csv", "w");
+    fp = fopen("T3-resoults.csv", "w");
     if (fp != NULL){
         fprintf(fp, "job,n,wall_time1,wall_time2\n");
         int n_times;
