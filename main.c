@@ -42,10 +42,22 @@ clock_t routine1(float *A, float *B, float *C, int n){
     return t_stop - t_start;
 }
 
+//Routine 2
+clock_t routine2(float *A, float *B, float * __restrict C, int n){
+    clock_t t_start, t_stop;
+    int i;
+    t_start = clock();
+    for (i = 0; i < n; i++){
+        C[i] = A[i] + B[i];
+    }
+    t_stop = clock();
+    return t_stop - t_start;
+}
+
 int main(int argc, char const *argv[]){
     int n;
     int i;
-    printf("Routine 1\n");
+    
 #ifndef N
     printf("\n Input size n:\n");
     do{
@@ -81,7 +93,12 @@ int main(int argc, char const *argv[]){
 
     // Print results
     double time = (double)wall_time/((double)CLOCKS_PER_SEC);
-    printf("\n\nLoop time: %.6f ms\n", time);
+    printf("\n\nRoutine 1 loop time: %.6f ms\n", time);
 
+    // Call routine 2
+    wall_time = routine2(a, b, c, n);
+    time = (double)wall_time/((double)CLOCKS_PER_SEC);
+    printf("\n\nRoutine 2 loop time: %.6f ms\n", time);
+    
     return 0;
 }
