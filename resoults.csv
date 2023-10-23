@@ -1,4 +1,5 @@
-job,hostname,n,wall_time1,wall_time2
+job ,hostname ,n ,wall_time1 ,wall_time2,
+
 0,hpc-c11-node16.unitn.it,100000000,0.560000,0.270000
 1,hpc-c11-node16.unitn.it,100000000,0.310000,0.170000
 2,hpc-c11-node16.unitn.it,100000000,0.260000,0.190000

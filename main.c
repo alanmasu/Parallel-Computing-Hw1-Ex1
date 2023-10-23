@@ -23,6 +23,10 @@
 #include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 // Random float generator
 float randomF(int min, int max, int prec){ 
@@ -58,6 +62,17 @@ int main(int argc, char const *argv[]){
     int n;
     int i;
     
+    //Retriving some info about the machine
+    char hostbuffer[256];
+    int hostname;
+ 
+    // retrieve hostname
+    hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+    if (hostname == -1) {
+        printf("Error when getting hostname\n");
+    }
+
+
 #ifndef N
     printf("\n Input size n:\n");
     do{
@@ -71,48 +86,56 @@ int main(int argc, char const *argv[]){
 #endif
     // Allocate memory for arrays
     float a[n], b[n], c[n];
+    FILE *f_resoults;
     FILE *fp;
     fp = fopen("T4-resoults.csv", "w");
+    
+    f_resoults = fopen("resoults.csv", "a");
+
     if (fp != NULL){
-        fprintf(fp, "job,n,wall_time1,wall_time2\n");
-        int n_times;
-        for (n_times = 0; n_times < 10; ++n_times){
-            printf("\n\nJob %d\nInitializing arrays...", n_times);
-            // Initialize arrays with random values
-            srand(time(NULL));
-            for (i = 0; i < n; i++){
-                a[i] = randomF(0, 100, 3);
-                b[i] = randomF(0, 100, 3);
-            }
-
-            // Print some values
-            // printf("Printing some values of the arrays:\n");
-            // for (i = 0; i < 10; i++){
-            //     int j = rand() % n;
-            //     printf("a[%d] = %f\tb[%d] = %f\n", j, a[j], j, b[j]);
-            // }
-            // printf("call routine1\n");
-            // Call routine 1
-            clock_t wall_time;
-            wall_time = routine1(a, b, c, n);
-
-            // Print results
-            double time1 = (double)wall_time/((double)CLOCKS_PER_SEC);
-            printf("\nLoop time: %.6f s\n", time1);
-
-            // Call routine 2
-            printf("\ncall routine2\n");
-            wall_time = routine2(a, b, c, n);
-
-            // Print results
-            double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
-            printf("\nLoop time: %.6f s\n", time2);
-
-            fprintf(fp, "%d,%d,%.6f,%.6f\n", n_times, n, time1, time2);
-
+        fprintf(fp, "job,hostname,n,wall_time1,wall_time2\n");
+    }
+    if (f_resoults == NULL){
+        printf("Error opening resoults.csv file!\n");
+    }
+    
+    int n_times;
+    for (n_times = 0; n_times < 10; ++n_times){
+        printf("\n\nJob %d\nInitializing arrays...\n", n_times);
+        // Initialize arrays with random values
+        srand(time(NULL));
+        for (i = 0; i < n; i++){
+            a[i] = randomF(0, 100, 3);
+            b[i] = randomF(0, 100, 3);
         }
-    }else{
-        printf("Error opening file!\n");
+
+        // Print some values
+        // printf("Printing some values of the arrays:\n");
+        // for (i = 0; i < 10; i++){
+        //     int j = rand() % n;
+        //     printf("a[%d] = %f\tb[%d] = %f\n", j, a[j], j, b[j]);
+        // }
+        // printf("call routine1\n");
+        // Call routine 1
+        clock_t wall_time;
+        printf("\ncall routine1\n");
+        wall_time = routine1(a, b, c, n);
+
+        // Print results
+        double time1 = (double)wall_time/((double)CLOCKS_PER_SEC);
+        printf("Loop time: %.6f s", time1);
+
+        // Call routine 2
+        printf("\ncall routine2\n");
+        wall_time = routine2(a, b, c, n);
+
+        // Print results
+        double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
+        printf("Loop time: %.6f s\n", time2);
+        if (fp != NULL)
+            fprintf(fp, "%d,%s,%d,%.6f,%.6f\n", n_times, hostbuffer, n, time1, time2);
+        if (f_resoults != NULL)
+            fprintf(f_resoults, "%d,%s,%d,%.6f,%.6f\n", n_times, hostbuffer, n, time1, time2);
     }
     fclose(fp);
     return 0;
