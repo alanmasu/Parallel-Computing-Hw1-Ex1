@@ -72,9 +72,9 @@ int main(int argc, char const *argv[]){
     // Allocate memory for arrays
     float a[n], b[n], c[n];
     FILE *fp;
-    fp = fopen("T1-results.csv", "w");
+    fp = fopen("T2-resoults.csv", "w");
     if (fp != NULL){
-        fprintf(fp, "job,n,wall_time\n");
+        fprintf(fp, "job,n,wall_time1,wall_time2\n");
         int n_times;
         for (n_times = 0; n_times < 10; ++n_times){
             printf("\n\nJob %d\nInitializing arrays...", n_times);
@@ -97,9 +97,19 @@ int main(int argc, char const *argv[]){
             wall_time = routine1(a, b, c, n);
 
             // Print results
-            double time = (double)wall_time/((double)CLOCKS_PER_SEC);
-            printf("\n\nLoop time: %.6f ms\n", time);
-            fprintf(fp, "%d,%d,%.6f\n", n_times, n, time);
+            double time1 = (double)wall_time/((double)CLOCKS_PER_SEC);
+            printf("\n\nLoop time: %.6f s\n", time1);
+
+            // Call routine 2
+            printf("call routine2\n");
+            wall_time = routine2(a, b, c, n);
+
+            // Print results
+            double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
+            printf("\n\nLoop time: %.6f s\n", time2);
+
+            fprintf(fp, "%d,%d,%.6f,%.6f\n", n_times, n, time1, time2);
+
         }
     }else{
         printf("Error opening file!\n");
