@@ -72,7 +72,7 @@ int main(int argc, char const *argv[]){
     // Allocate memory for arrays
     float a[n], b[n], c[n];
     FILE *fp;
-    fp = fopen("T3-resoults.csv", "w");
+    fp = fopen("T4-resoults.csv", "w");
     if (fp != NULL){
         fprintf(fp, "job,n,wall_time1,wall_time2\n");
         int n_times;
@@ -86,27 +86,27 @@ int main(int argc, char const *argv[]){
             }
 
             // Print some values
-            printf("Printing some values of the arrays:\n");
-            for (i = 0; i < 10; i++){
-                int j = rand() % n;
-                printf("a[%d] = %f\tb[%d] = %f\n", j, a[j], j, b[j]);
-            }
-            printf("call routine1\n");
+            // printf("Printing some values of the arrays:\n");
+            // for (i = 0; i < 10; i++){
+            //     int j = rand() % n;
+            //     printf("a[%d] = %f\tb[%d] = %f\n", j, a[j], j, b[j]);
+            // }
+            // printf("call routine1\n");
             // Call routine 1
             clock_t wall_time;
             wall_time = routine1(a, b, c, n);
 
             // Print results
             double time1 = (double)wall_time/((double)CLOCKS_PER_SEC);
-            printf("\n\nLoop time: %.6f s\n", time1);
+            printf("\nLoop time: %.6f s\n", time1);
 
             // Call routine 2
-            printf("call routine2\n");
+            printf("\ncall routine2\n");
             wall_time = routine2(a, b, c, n);
 
             // Print results
             double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
-            printf("\n\nLoop time: %.6f s\n", time2);
+            printf("\nLoop time: %.6f s\n", time2);
 
             fprintf(fp, "%d,%d,%.6f,%.6f\n", n_times, n, time1, time2);
 
