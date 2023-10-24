@@ -68,8 +68,8 @@ uint64_t routine2(float *A, float *B, float * __restrict C, int n){
 }
 
 int main(int argc, char const *argv[]){
-    int n;
-    int i;
+    uint64_t n;
+    uint64_t i;
     
     //Retriving some info about the machine
     char hostbuffer[256];
@@ -83,7 +83,7 @@ int main(int argc, char const *argv[]){
 
     FILE *f_resoults;
     FILE *fp;
-    fp = fopen("T4-resoults.csv", "w");
+    fp = fopen("B-resoults.csv", "w");
     
     f_resoults = fopen("Benchmark-resoults.csv", "a");
 
@@ -94,7 +94,7 @@ int main(int argc, char const *argv[]){
         printf("Error opening resoults.csv file!\n");
     }
     
-    for (n = pow(2, 4); n < pow(2, 22); n *= 2){
+    for (n = 16; n <= 4194304; n *= 2){
         // Allocate memory for arrays
         float a[n], b[n], c[n];
 
