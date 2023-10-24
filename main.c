@@ -137,7 +137,7 @@ int main(int argc, char const *argv[]){
         double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
         printf("Loop time: %.6f s\n", time2);
         if (fp != NULL)
-            fprintf(fp, "%d,%s,%d,%.6f,%.6f,%s\n", n_times, hostbuffer, n, time1, time2, NOTES);
+            fprintf(fp, "%d,%s,%d,%.6f,%.6f\n", n_times, hostbuffer, n, time1, time2);
         if (f_resoults != NULL)
             fprintf(f_resoults, "%d,%s,%d,%.6f,%.6f,%s\n", n_times, hostbuffer, n, time1, time2, NOTES);
     }

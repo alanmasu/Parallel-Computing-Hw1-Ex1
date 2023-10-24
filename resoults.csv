@@ -1,6 +1,6 @@
-job ,hostname ,n ,wall_time1 ,wall_time2,notes
+job,hostname,n,wall_time1,wall_time2,notes
 0,hpc-c11-node16.unitn.it,100000000,0.590000,0.290000,ftree
-1,hpc-c11-node16.unitn.it,100000000,0.830000,0.250000,ftre
+1,hpc-c11-node16.unitn.it,100000000,0.830000,0.250000,ftree
 2,hpc-c11-node16.unitn.it,100000000,0.560000,0.190000,ftree
 3,hpc-c11-node16.unitn.it,100000000,0.300000,0.180000,ftree
 4,hpc-c11-node16.unitn.it,100000000,0.220000,0.140000,ftree
@@ -9,3 +9,13 @@ job ,hostname ,n ,wall_time1 ,wall_time2,notes
 7,hpc-c11-node16.unitn.it,100000000,0.200000,0.110000,ftree
 8,hpc-c11-node16.unitn.it,100000000,0.200000,0.160000,ftree
 9,hpc-c11-node16.unitn.it,100000000,0.110000,0.110000,ftree
+0,hpc-c11-node16.unitn.it,100000000,0.620000,0.250000,avx
+1,hpc-c11-node16.unitn.it,100000000,0.710000,0.240000,avx
+2,hpc-c11-node16.unitn.it,100000000,0.690000,0.220000,avx
+3,hpc-c11-node16.unitn.it,100000000,0.450000,0.180000,avx
+4,hpc-c11-node16.unitn.it,100000000,0.430000,0.160000,avx
+5,hpc-c11-node16.unitn.it,100000000,0.500000,0.110000,avx
+6,hpc-c11-node16.unitn.it,100000000,0.390000,0.140000,avx
+7,hpc-c11-node16.unitn.it,100000000,0.260000,0.150000,avx
+8,hpc-c11-node16.unitn.it,100000000,0.260000,0.150000,avx
+9,hpc-c11-node16.unitn.it,100000000,0.230000,0.120000,avx
