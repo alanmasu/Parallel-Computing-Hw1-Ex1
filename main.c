@@ -27,6 +27,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <math.h>
+#include <stdint.h>
 
 #ifndef NOTES
     #define NOTES ""
@@ -39,27 +41,30 @@ float randomF(int min, int max, int prec){
 }
 
 // Routine 1
-clock_t routine1(float *A, float *B, float *C, int n){
-    clock_t t_start, t_stop;
+uint64_t routine1(float *A, float *B, float *C, int n){
+    struct timespec start, end;
+    //do stuff
+
     int i;
-    t_start = clock();
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     for (i = 0; i < n; i++){
         C[i] = A[i] + B[i];
     }
-    t_stop = clock();
-    return t_stop - t_start;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    //return t_stop - t_start;
+    return (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
 }
 
 //Routine 2
-clock_t routine2(float *A, float *B, float * __restrict C, int n){
-    clock_t t_start, t_stop;
+uint64_t routine2(float *A, float *B, float * __restrict C, int n){
+    struct timespec start, end;
     int i;
-    t_start = clock();
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     for (i = 0; i < n; i++){
         C[i] = A[i] + B[i];
     }
-    t_stop = clock();
-    return t_stop - t_start;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    return (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
 }
 
 int main(int argc, char const *argv[]){
@@ -76,41 +81,29 @@ int main(int argc, char const *argv[]){
         printf("Error when getting hostname\n");
     }
 
-
-#ifndef N
-    printf("\n Input size n:\n");
-    do{
-        scanf("%d", &n);
-        if (n < 0){
-            printf("\nInvalid input, please insert a positive integer!\n");
-        }
-    } while (n < 0);
-#else
-    n = N;
-#endif
-    // Allocate memory for arrays
-    float a[n], b[n], c[n];
     FILE *f_resoults;
     FILE *fp;
     fp = fopen("T4-resoults.csv", "w");
     
-    f_resoults = fopen("resoults.csv", "a");
+    f_resoults = fopen("Benchmark-resoults.csv", "a");
 
     if (fp != NULL){
-        fprintf(fp, "job,hostname,n,wall_time1,wall_time2\n");
+        fprintf(fp, "job,hostname,n,wall_time_serial,wall_time_vectorized\n");
     }
     if (f_resoults == NULL){
         printf("Error opening resoults.csv file!\n");
     }
     
-    int n_times;
-    for (n_times = 0; n_times < 10; ++n_times){
-        printf("\n\nJob %d\nInitializing arrays...\n", n_times);
+    for (n = pow(2, 4); n < pow(2, 22); n *= 2){
+        // Allocate memory for arrays
+        float a[n], b[n], c[n];
+
+        printf("\n\nJob %d\nInitializing arrays...\n", n);
         // Initialize arrays with random values
         srand(time(NULL));
         for (i = 0; i < n; i++){
-            a[i] = randomF(0, 100, 3);
-            b[i] = randomF(0, 100, 3);
+            a[i] = randomF(0, 1000, 3);
+            b[i] = randomF(0, 1000, 3);
         }
 
         // Print some values
@@ -137,9 +130,9 @@ int main(int argc, char const *argv[]){
         double time2 = (double)wall_time/((double)CLOCKS_PER_SEC);
         printf("Loop time: %.6f s\n", time2);
         if (fp != NULL)
-            fprintf(fp, "%d,%s,%d,%.6f,%.6f\n", n_times, hostbuffer, n, time1, time2);
+            fprintf(fp, "%s,%d,%.6f,%.6f\n", hostbuffer, n, time1, time2);
         if (f_resoults != NULL)
-            fprintf(f_resoults, "%d,%s,%d,%.6f,%.6f,%s\n", n_times, hostbuffer, n, time1, time2, NOTES);
+            fprintf(f_resoults, "%s,%d,%.6f,%.6f,%s\n", hostbuffer, n, time1, time2, NOTES);
     }
     fclose(fp);
     return 0;
