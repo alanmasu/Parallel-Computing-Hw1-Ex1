@@ -106,7 +106,7 @@ int main(int argc, char const *argv[]){
             b[i] = randomF(0, 1000, 3);
         }
 
-        // Print some values
+        // Print some values [ONLY FOR DEBUG]
         // printf("Printing some values of the arrays:\n");
         // for (i = 0; i < 10; i++){
         //     int j = rand() % n;

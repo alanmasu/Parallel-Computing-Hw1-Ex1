@@ -13,18 +13,18 @@ sns.set_style("whitegrid")
 
 # Read the data
 df = pd.read_csv(filename + '.csv')
-
+# df['wall_clock_time_routine2'].replace(to_replace=0, value=0.0000001, inplace=True)
 print(df)
 
 # Filter the data
-df_serial = df[df['notes'] == 'not_vectorized']
-df_avx = df[df['notes'] == 'avx']
-df_ftree = df[df['notes'] == 'ftree']
+df_serial = df[df['notes'] == 'not_vectorized'][df['node'] == 'hpc-c11-node23.unitn.it']
+df_avx = df[df['notes'] == 'avx'][df['node'] == 'hpc-c11-node23.unitn.it']
+#df_ftree = df[df['notes'] == 'ftree'][df['node'] == 'hpc-c11-node23.unitn.it']
 
 
-print(df_serial)
-print(df_avx)
-print(df_ftree)
+print('df_serial',df_serial)
+print('df_avx',df_avx)
+#print(df_ftree)
 
 # Create a scatter plot
 sns.lineplot(x='n', y='wall_clock_time_routine2', data=df_serial, label='Serial', color='red')
@@ -37,7 +37,15 @@ plt.ylabel('Time [s]')
 #plt.ylabel('$log_2(t) [s]$')
 plt.xscale('log')
 # plt.yscale('log')
-plt.xticks([16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32786, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304],['$2^4$', '$2^5$', '$2^6$', '$2^7$', '$2^8$', '$2^9$', '$2^{10}$', '$2^{11}$', '$2^{12}$', '$2^{13}$', '$2^{14}$', '$2^{15}$', '$2^{16}$', '$2^{17}$', '$2^{18}$', '$2^{19}$', '$2^{20}$', '$2^{21}$', '$2^{22}$'])
+
+ticks = []
+ticks_labels = []
+
+for i in range(4, 22):
+    ticks.append(2**i)
+    ticks_labels.append('$2^{' + str(i) + '}$')
+    
+plt.xticks(ticks, ticks_labels)
 plt.legend()
 plt.savefig(img_filename + '.png')
 plt.show()
