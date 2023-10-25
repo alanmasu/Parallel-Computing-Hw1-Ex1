@@ -1,4 +1,4 @@
-node,n,wall_clock_time_routine1,wall_clock_time_routine2
+node,n,wall_clock_time_routine1,wall_clock_time_routine2,notes
 hpc-c11-node12.unitn.it,16,0.000000,0.000000,not_vectorized
 hpc-c11-node12.unitn.it,32,0.000000,0.000000,not_vectorized
 hpc-c11-node12.unitn.it,64,0.000000,0.000000,not_vectorized
