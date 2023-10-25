@@ -27,8 +27,9 @@ print('df_avx',df_avx)
 #print(df_ftree)
 
 # Create a scatter plot
-sns.lineplot(x='n', y='wall_clock_time_routine2', data=df_serial, label='Serial', color='red')
-sns.lineplot(x='n', y='wall_clock_time_routine2', data=df_avx, label='Vectorized-avx', color='blue')
+sns.lineplot(x='n', y='wall_clock_time_routine1', data=df_serial, label='Serial', color='red')
+sns.lineplot(x='n', y='wall_clock_time_routine2', data=df_serial, label='Restrict flag', color='blue')
+sns.lineplot(x='n', y='wall_clock_time_routine2', data=df_avx, label='Vectorized + flag', color='green')
 
 # Add title and axis names
 plt.title('Wall time')
