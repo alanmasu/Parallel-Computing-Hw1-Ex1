@@ -28,8 +28,10 @@ Finally, we can run the code with the following command,
 ```bash
 ./a.out
 ```
+## Gettig the results and plotting them
+After the execution of the program it's possible to see the results on a file called `Benchmark-resoults.csv` and this file can be also used to plot the results with the python script `chart.py`.
 
-After the execution, the program it's possible to see the results on the screen and save them on a file called `Benchmark-resoults.csv` and this file can be also use to plot the results with the python script `chart.py`.
+>Note, when the program is executed, another file called `B-resoults.csv` will be generated, but this file contains only the data of the last run! 
 
 In order to plot the results, we can use the following command:
 ```bash
@@ -41,4 +43,3 @@ pip3 install matplotlib numpy pandas
 #or just run the script
 python3 chart.py
 ```
-
